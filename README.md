@@ -192,7 +192,7 @@ Notes from reproducing the pipeline:
 ## Repository layout
 
 ```
-ros-vla-manip/
+vla-specialize-vs-generalize/
   README.md
   docs/        literature review, setup, architecture, training, pipeline
   vla/         fine-tuning and evaluation notebooks
