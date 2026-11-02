@@ -83,7 +83,7 @@ Only the action expert receives gradients. Checkpoints are saved every 2000 step
 
 ![Training loss](results/loss_curves.svg)
 
-Real training loss, extracted from the Kaggle training logs. M2 (specialized, 6,000 steps) decreases from 1.108 to 0.057. The retrievable M1 log covers the first 2,000 steps of the run (1.885 to 0.281); the M1 training was then extended to 10,000 steps across further Kaggle runs whose per-step logs are not in this repository.
+Real training loss, extracted from the Kaggle training logs. M1 (multi-task on MT50, 10,000 steps) decreases from 1.865 to 0.112. M2 (specialized on 4 tasks, 6,000 steps) decreases from 1.108 to 0.057.
 
 ## Results
 

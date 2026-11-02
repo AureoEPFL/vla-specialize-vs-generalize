@@ -1,6 +1,6 @@
 import json, re, csv, os
 
-def parse(path, out_csv, total):
+def parse(path, total, offset=0):
     rows = []
     with open(path, "r", errors="ignore") as f:
         for line in f:
@@ -19,7 +19,10 @@ def parse(path, out_csv, total):
             steps = re.findall(r"(\d+)/" + str(total), data)
             losses = re.findall(r"loss:([0-9]*\.?[0-9]+)", data)
             if steps and losses:
-                rows.append((int(steps[-1]), float(losses[-1])))
+                rows.append((int(steps[-1]) + offset, float(losses[-1])))
+    return rows
+
+def write(rows, out_csv):
     d = {}
     for s, l in rows:
         d[s] = l
@@ -28,11 +31,13 @@ def parse(path, out_csv, total):
         w.writerow(["step", "loss"])
         for s in sorted(d):
             w.writerow([s, d[s]])
-    print(out_csv, "->", len(d), "points, step range", (min(d), max(d)) if d else None)
+    print(out_csv, "->", len(d), "points, range", (min(d), max(d)) if d else None)
 
 base = os.path.dirname(os.path.abspath(__file__))
 root = os.path.dirname(base)
-src = os.path.join(root, "..", "_losssrc")
+src = os.path.join(root, "..", "_pickplace")
 
-parse(os.path.join(src, "m1", "ros-vla-manip-metaworld.log"), os.path.join(base, "loss_m1.csv"), 2000)
-parse(os.path.join(src, "m2", "ros-vla-manip-m2-train.log"), os.path.join(base, "loss_m2.csv"), 6000)
+part1 = parse(os.path.join(src, "ros-vla-manip-pickplace", "ros-vla-manip-pickplace.log"), 10000, 0)
+part2 = parse(os.path.join(src, "ros-vla-manip-pickplace-resume", "ros-vla-manip-pickplace-resume.log"), 2000, 8000)
+print("part1", len(part1), "part2", len(part2))
+write(part1 + part2, os.path.join(base, "loss_m1.csv"))
