@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="340" font-family="Arial, sans-serif">
+<rect width="960" height="340" fill="#ffffff"/>
+<text x="480" y="26" font-size="16" font-weight="bold" fill="#111111" text-anchor="middle">SmolVLA architecture</text>
+<rect x="700" y="8" width="14" height="10" fill="#dbe7f6" stroke="#4a7bbd"/>
+<text x="718" y="17" font-size="11" fill="#444444">frozen</text>
+<rect x="780" y="8" width="14" height="10" fill="#fde8d0" stroke="#c47a1a"/>
+<text x="798" y="17" font-size="11" fill="#444444">trained</text>
+<text x="30" y="64" font-size="12" fill="#333333" text-anchor="start">RGB image</text>
+<text x="30" y="174" font-size="12" fill="#333333" text-anchor="start">language instruction</text>
+<text x="30" y="274" font-size="12" fill="#333333" text-anchor="start">robot state</text>
+<rect x="150" y="40" width="150" height="60" rx="6" fill="#dbe7f6" stroke="#4a7bbd" stroke-width="1.5"/>
+<text x="225.0" y="60" font-size="13" font-weight="bold" fill="#111111" text-anchor="middle">Vision encoder</text>
+<text x="225.0" y="76" font-size="10.5" fill="#444444" text-anchor="middle">SigLIP</text>
+<text x="225.0" y="90" font-size="10.5" fill="#444444" text-anchor="middle">64 visual tokens</text>
+<rect x="360" y="110" width="180" height="90" rx="6" fill="#dbe7f6" stroke="#4a7bbd" stroke-width="1.5"/>
+<text x="450.0" y="130" font-size="13" font-weight="bold" fill="#111111" text-anchor="middle">Language decoder</text>
+<text x="450.0" y="146" font-size="10.5" fill="#444444" text-anchor="middle">SmolLM2 · 16 layers</text>
+<text x="450.0" y="160" font-size="10.5" fill="#444444" text-anchor="middle">visual + text + state</text>
+<text x="450.0" y="174" font-size="10.5" fill="#444444" text-anchor="middle">tokens merged</text>
+<rect x="610" y="110" width="180" height="90" rx="6" fill="#fde8d0" stroke="#c47a1a" stroke-width="1.5"/>
+<text x="700.0" y="130" font-size="13" font-weight="bold" fill="#111111" text-anchor="middle">Action expert</text>
+<text x="700.0" y="146" font-size="10.5" fill="#444444" text-anchor="middle">flow-matching</text>
+<text x="700.0" y="160" font-size="10.5" fill="#444444" text-anchor="middle">transformer (~100M)</text>
+<text x="700.0" y="174" font-size="10.5" fill="#444444" text-anchor="middle">interleaved CA / SA</text>
+<rect x="850" y="125" width="90" height="60" rx="6" fill="#eef7e8" stroke="#4f8a3d" stroke-width="1.5"/>
+<text x="895.0" y="145" font-size="13" font-weight="bold" fill="#111111" text-anchor="middle">action chunk</text>
+<text x="895.0" y="161" font-size="10.5" fill="#444444" text-anchor="middle">[a_t … a_t+49]</text>
+<text x="895.0" y="175" font-size="10.5" fill="#444444" text-anchor="middle">50 steps · 4-D</text>
+<line x1="190" y1="100" x2="225" y2="100" stroke="#4a7bbd" stroke-width="1.6"/>
+<line x1="225" y1="100" x2="232.8" y2="104.5" stroke="#4a7bbd" stroke-width="1.6"/>
+<line x1="225" y1="100" x2="232.8" y2="95.5" stroke="#4a7bbd" stroke-width="1.6"/>
+<line x1="185" y1="170" x2="360" y2="155" stroke="#888888" stroke-width="1.6"/>
+<line x1="360" y1="155" x2="368.2" y2="158.8" stroke="#888888" stroke-width="1.6"/>
+<line x1="360" y1="155" x2="367.4" y2="149.9" stroke="#888888" stroke-width="1.6"/>
+<line x1="540" y1="155" x2="610" y2="140" stroke="#888888" stroke-width="1.6"/>
+<line x1="610" y1="140" x2="618.6" y2="142.8" stroke="#888888" stroke-width="1.6"/>
+<line x1="610" y1="140" x2="616.7" y2="134.0" stroke="#888888" stroke-width="1.6"/>
+<line x1="790" y1="155" x2="850" y2="152" stroke="#4f8a3d" stroke-width="1.6"/>
+<line x1="850" y1="152" x2="858.0" y2="156.1" stroke="#4f8a3d" stroke-width="1.6"/>
+<line x1="850" y1="152" x2="857.6" y2="147.1" stroke="#4f8a3d" stroke-width="1.6"/>
+<line x1="150" y1="170" x2="360" y2="165" stroke="#888888" stroke-width="1.6"/>
+<line x1="360" y1="165" x2="367.9" y2="169.3" stroke="#888888" stroke-width="1.6"/>
+<line x1="360" y1="165" x2="367.7" y2="160.3" stroke="#888888" stroke-width="1.6"/>
+<line x1="150" y1="270" x2="360" y2="175" stroke="#888888" stroke-width="1.6"/>
+<line x1="360" y1="175" x2="369.0" y2="175.9" stroke="#888888" stroke-width="1.6"/>
+<line x1="360" y1="175" x2="365.2" y2="167.7" stroke="#888888" stroke-width="1.6"/>
+<text x="480" y="320" font-size="11" fill="#666666" text-anchor="middle">Only the action expert is trained; the vision encoder and language decoder are frozen.</text>
+</svg>

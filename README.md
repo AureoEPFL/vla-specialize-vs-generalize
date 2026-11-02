@@ -60,9 +60,9 @@ The policy predicts 50 actions at once and executes them, decoupling inference f
 
 Reference: SmolVLA, Shukor et al., arXiv:2506.01844.
 
-![SmolVLA architecture, Figure 1 of the paper](https://arxiv.org/html/2506.01844v1/2506.01844v1/SmolVLA.png)
+![SmolVLA architecture](results/architecture.svg)
 
-*Figure 1 from the SmolVLA paper: a pretrained VLM (vision encoder + language decoder, with the last layers discarded) feeds an action expert of interleaved cross-attention and self-attention blocks, trained with flow matching to output an action chunk. The schematic above is a simplified version of this.*
+*SmolVLA architecture: the frozen vision encoder and language decoder feed a trained action expert that outputs an action chunk with flow matching. For the original diagram, see Figure 1 of the paper (arXiv:2506.01844).*
 
 ## Training configuration
 

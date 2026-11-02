@@ -1,43 +1,46 @@
-"""Generate loss_curve.svg from results/loss.csv (stdlib only)."""
-import csv
-from pathlib import Path
+import os, csv
 
-root = Path(__file__).resolve().parent
-rows = list(csv.reader((root / "loss.csv").open()))
-data = [(int(r[0]), float(r[1])) for r in rows[1:]]
+rows = []
+with open(os.path.join("ros-vla-manip", "results", "loss.csv"), newline="") as f:
+    for r in csv.DictReader(f):
+        rows.append((int(r["step"]), float(r["loss"])))
 
-W, H = 800, 420
-ML, MR, MT, MB = 70, 30, 30, 60
-pw, ph = W - ML - MR, H - MT - MB
-steps = [s for s, _ in data]
-losses = [l for _, l in data]
-lmin, lmax = 0.12, 0.46
-smin, smax = 0, 500
+W, H = 640, 360
+left, right, top, bottom = 60, 620, 30, 300
+xmin, xmax = min(s for s, _ in rows), max(s for s, _ in rows)
+ymin, ymax = 0.0, 0.5
 
-def X(s): return ML + (s - smin) / (smax - smin) * pw
-def Y(l): return MT + (lmax - l) / (lmax - lmin) * ph
+def X(s): return left + (s - xmin) / (xmax - xmin) * (right - left)
+def Y(l): return bottom - (l - ymin) / (ymax - ymin) * (bottom - top)
 
-pts = " ".join(f"{X(s):.1f},{Y(l):.1f}" for s, l in data)
+svg = []
+svg.append(f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" font-family="Arial, sans-serif">')
+svg.append(f'<rect width="{W}" height="{H}" fill="#ffffff"/>')
+svg.append(f'<text x="{left}" y="20" font-size="15" font-weight="bold" fill="#111111">Training loss (imitation learning)</text>')
 
-grid = []
-for l in [0.15, 0.20, 0.25, 0.30, 0.35, 0.40]:
-    y = Y(l)
-    grid.append(f'<line x1="{ML}" y1="{y:.1f}" x2="{W-MR}" y2="{y:.1f}" stroke="#e5e7eb" stroke-width="1"/>')
-    grid.append(f'<text x="{ML-8}" y="{y+4:.1f}" text-anchor="end" font-size="12" fill="#6b7280">{l:.2f}</text>')
-for s in [0, 100, 200, 300, 400, 500]:
-    x = X(s)
-    grid.append(f'<text x="{x:.1f}" y="{H-MB+20}" text-anchor="middle" font-size="12" fill="#6b7280">{s}</text>')
+svg.append(f'<line x1="{left}" y1="{bottom}" x2="{right}" y2="{bottom}" stroke="#333333" stroke-width="1"/>')
+svg.append(f'<line x1="{left}" y1="{top}" x2="{left}" y2="{bottom}" stroke="#333333" stroke-width="1"/>')
 
-svg = f"""<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" font-family="Segoe UI, Arial, sans-serif">
-<rect width="{W}" height="{H}" fill="#ffffff"/>
-{''.join(grid)}
-<polyline points="{pts}" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linejoin="round"/>
-<circle cx="{X(data[0][0]):.1f}" cy="{Y(data[0][1]):.1f}" r="4" fill="#2563eb"/>
-<circle cx="{X(data[-1][0]):.1f}" cy="{Y(data[-1][1]):.1f}" r="4" fill="#2563eb"/>
-<text x="{ML}" y="{MT-10}" font-size="16" font-weight="bold" fill="#111827">Training loss — SmolVLA fine-tune (svla_so100_pickplace)</text>
-<text x="{W-MR}" y="{H-MB+36}" text-anchor="end" font-size="12" fill="#6b7280">steps</text>
-<text x="16" y="{MT+ph/2}" text-anchor="middle" font-size="12" fill="#6b7280" transform="rotate(-90 16 {MT+ph/2})">loss</text>
-</svg>
-"""
-(root / "loss_curve.svg").write_text(svg)
-print(f"Wrote {root / 'loss_curve.svg'} ({len(svg)} bytes)")
+for y in [0.0, 0.1, 0.2, 0.3, 0.4, 0.5]:
+    yy = Y(y)
+    svg.append(f'<line x1="{left}" y1="{yy}" x2="{right}" y2="{yy}" stroke="#e0e0e0" stroke-width="1"/>')
+    svg.append(f'<text x="{left - 8}" y="{yy + 4}" font-size="10" fill="#666666" text-anchor="end">{y:.1f}</text>')
+
+for s in range(0, 501, 100):
+    xx = X(s)
+    svg.append(f'<line x1="{xx}" y1="{top}" x2="{xx}" y2="{bottom}" stroke="#f0f0f0" stroke-width="1"/>')
+    svg.append(f'<text x="{xx}" y="{bottom + 16}" font-size="10" fill="#666666" text-anchor="middle">{s}</text>')
+
+svg.append(f'<text x="{right}" y="{bottom + 34}" font-size="10" fill="#666666" text-anchor="end">step</text>')
+
+pts = " ".join(f"{X(s):.1f},{Y(l):.1f}" for s, l in rows)
+svg.append(f'<polyline points="{pts}" fill="none" stroke="#1565c0" stroke-width="2"/>')
+for s, l in rows:
+    svg.append(f'<circle cx="{X(s):.1f}" cy="{Y(l):.1f}" r="2.5" fill="#1565c0"/>')
+
+svg.append('</svg>')
+
+out = os.path.join("ros-vla-manip", "results", "loss_curve.svg")
+with open(out, "w", encoding="utf-8") as f:
+    f.write("\n".join(svg))
+print("written:", out)
