@@ -75,6 +75,12 @@ lerobot-train \
 
 Only the action expert receives gradients. Checkpoints are saved every 2000 steps with weights, optimizer and scheduler state, which allows resuming a run after an environment timeout.
 
+### Training curve
+
+![Training loss](results/loss_curve.svg)
+
+The loss drops quickly in the first few hundred steps and then plateaus, which is the expected behaviour for a frozen backbone with a small trained head. The training curves for the M1 (MT50) and M2 (4 tasks) runs are logged in their respective Kaggle runs.
+
 ## Results
 
 ![Success rate by task](results/success_rate.svg)
@@ -97,6 +103,22 @@ Only the action expert receives gradients. Checkpoints are saved every 2000 step
 
 Results are reported over 10 episodes per task. The 95% Wilson confidence interval of each task is available in the raw `eval_info.json` files.
 
+## Demo gallery
+
+These GIFs are rollout excerpts from the M2 evaluation (240x240, 10 fps).
+
+**On the tasks M2 was trained on, it succeeds:**
+
+| push-v3 (20% to 70%) | bin-picking-v3 (20% to 60%) | basketball-v3 (20% to 40%) |
+|----------------------|------------------------------|------------------------------|
+| ![push success](results/gifs/push_success.gif) | ![bin-picking success](results/gifs/binpicking_success.gif) | ![basketball success](results/gifs/basketball_success.gif) |
+
+**On the tasks it was not trained on, it fails:**
+
+| door-close-v3 (100% to 0%) | button-press-v3 (80% to 0%) |
+|----------------------------|------------------------------|
+| ![door-close forgetting](results/gifs/doorclose_forgot.gif) | ![button-press forgetting](results/gifs/buttonpress_forgot.gif) |
+
 ## Findings
 
 **The pretrained base is already competent.** `lerobot/smolvla_base` is a generalist VLA pretrained on community manipulation data. Without any fine-tuning it scores 100% on door-close and 80% on button-press.
@@ -104,6 +126,19 @@ Results are reported over 10 episodes per task. The 95% Wilson confidence interv
 **A short multi-task fine-tune does not change behaviour.** M1 is statistically identical to M0. A 10,000-step run with batch size 32 corresponds to roughly 0.25 epoch over MT50, which is not enough to move a 450M parameter model. The training loss decreased from 0.44 to 0.14, but the observable success rate did not change.
 
 **Specialization improves trained tasks and causes catastrophic forgetting elsewhere.** M2 was fine-tuned on four tasks (basketball, bin-picking, pick-place, push). On those tasks the success rate increased substantially (push +50, bin-picking +40, basketball +20 percentage points), while every task that was not trained on dropped to zero or near zero (door-close from 100% to 0%, button-press from 80% to 0%). The overall mean therefore falls from about 27% to about 17%: specialization trades breadth for depth. Pick-place is an exception (20% to 10%), which is within the confidence interval of a 10-episode evaluation and should be treated as noise.
+
+## Discussion and conclusion
+
+The central finding is not a new phenomenon. Catastrophic forgetting, the loss of previously learned behaviour when a network is fine-tuned on new data, is one of the oldest known failure modes of neural networks (McCloskey and Cohen, 1989; Goodfellow et al., 2013), and regularisation methods such as Elastic Weight Consolidation were proposed specifically to mitigate it (Kirkpatrick et al., 2017). The pattern observed here, a broad fine-tune that changes nothing and a specialized fine-tune that improves its targets while destroying the rest, is consistent with what the VLA literature reports when models are fine-tuned on narrow data.
+
+Two observations are worth stating explicitly:
+
+1. The pretrained base is strong. A generalist VLA already solves the easy tasks and a fraction of the harder ones. Fine-tuning changes behaviour only with enough data and compute.
+2. Data coverage dominates. The success of M2 is concentrated exactly on the four tasks present in its training set, and everything absent from that set regressed.
+
+This has a direct practical implication for anyone deploying a fine-tuned VLA: either the evaluation set must be covered by the training set, or the generalist checkpoint must be kept alongside the specialized one. The mitigation menu (data mixing, LoRA, regularisation, multi-task training) is standard but costs compute.
+
+What this work adds is a small, reproducible, and honest measurement: the same model, the same twelve tasks, three training regimes, and the exact numbers. The limitation is compute. Ten thousand steps is a demonstration budget, and the conclusions should be read as a lower bound on what a full training run would achieve.
 
 ## Improvement directions
 
@@ -165,6 +200,10 @@ ros-vla-manip/
 - LeRobot, Hugging Face, https://github.com/huggingface/lerobot
 - Meta-World, Yu et al., CoRL 2019.
 - MuJoCo, Todorov et al., IROS 2012.
+
+## Acknowledgements
+
+Developed with the assistance of DeepSeek (AI coding agent, deepseek-v4-pro), which contributed to the pipeline, experiments and documentation.
 
 ## License
 
