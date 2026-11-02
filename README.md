@@ -60,6 +60,10 @@ The policy predicts 50 actions at once and executes them, decoupling inference f
 
 Reference: SmolVLA, Shukor et al., arXiv:2506.01844.
 
+![SmolVLA architecture, Figure 1 of the paper](https://arxiv.org/html/2506.01844v1/2506.01844v1/SmolVLA.png)
+
+*Figure 1 from the SmolVLA paper: a pretrained VLM (vision encoder + language decoder, with the last layers discarded) feeds an action expert of interleaved cross-attention and self-attention blocks, trained with flow matching to output an action chunk. The schematic above is a simplified version of this.*
+
 ## Training configuration
 
 ```bash
@@ -103,40 +107,26 @@ The loss drops quickly in the first few hundred steps and then plateaus, which i
 
 Results are reported over 10 episodes per task. The 95% Wilson confidence interval of each task is available in the raw `eval_info.json` files.
 
-## Demo gallery
+## Model comparison
 
-These GIFs are rollout excerpts from the M2 evaluation (240x240, 10 fps).
+Each cell is one rollout: the first successful episode, or episode 0 when the model never succeeded on that task. The numbers are the success rate (M0 / M1 / M2). Tasks marked † are the four that M2 was fine-tuned on.
 
-**On the tasks M2 was trained on, it succeeds:**
+| Task (success rate: M0 / M1 / M2) | M0 (base) | M1 (multi-task) | M2 (specialized) |
+|------------------------------------|-----------|-----------------|-------------------|
+| door-close-v3 (100% / 100% / 0%) | ![m0](results/gifs/compare/door-close-v3_m0.gif) | ![m1](results/gifs/compare/door-close-v3_m1.gif) | ![m2](results/gifs/compare/door-close-v3_m2.gif) |
+| button-press-topdown-v3 (80% / 80% / 0%) | ![m0](results/gifs/compare/button-press-topdown-v3_m0.gif) | ![m1](results/gifs/compare/button-press-topdown-v3_m1.gif) | ![m2](results/gifs/compare/button-press-topdown-v3_m2.gif) |
+| reach-v3 (30% / 30% / 20%) | ![m0](results/gifs/compare/reach-v3_m0.gif) | ![m1](results/gifs/compare/reach-v3_m1.gif) | ![m2](results/gifs/compare/reach-v3_m2.gif) |
+| † basketball-v3 (20% / 20% / 40%) | ![m0](results/gifs/compare/basketball-v3_m0.gif) | ![m1](results/gifs/compare/basketball-v3_m1.gif) | ![m2](results/gifs/compare/basketball-v3_m2.gif) |
+| † bin-picking-v3 (20% / 20% / 60%) | ![m0](results/gifs/compare/bin-picking-v3_m0.gif) | ![m1](results/gifs/compare/bin-picking-v3_m1.gif) | ![m2](results/gifs/compare/bin-picking-v3_m2.gif) |
+| sweep-v3 (10% / 10% / 0%) | ![m0](results/gifs/compare/sweep-v3_m0.gif) | ![m1](results/gifs/compare/sweep-v3_m1.gif) | ![m2](results/gifs/compare/sweep-v3_m2.gif) |
+| coffee-push-v3 (0% / 0% / 0%) | ![m0](results/gifs/compare/coffee-push-v3_m0.gif) | ![m1](results/gifs/compare/coffee-push-v3_m1.gif) | ![m2](results/gifs/compare/coffee-push-v3_m2.gif) |
+| † pick-place-v3 (20% / 20% / 10%) | ![m0](results/gifs/compare/pick-place-v3_m0.gif) | ![m1](results/gifs/compare/pick-place-v3_m1.gif) | ![m2](results/gifs/compare/pick-place-v3_m2.gif) |
+| † push-v3 (20% / 20% / 70%) | ![m0](results/gifs/compare/push-v3_m0.gif) | ![m1](results/gifs/compare/push-v3_m1.gif) | ![m2](results/gifs/compare/push-v3_m2.gif) |
+| assembly-v3 (0% / 0% / 0%) | ![m0](results/gifs/compare/assembly-v3_m0.gif) | ![m1](results/gifs/compare/assembly-v3_m1.gif) | ![m2](results/gifs/compare/assembly-v3_m2.gif) |
+| shelf-place-v3 (10% / 10% / 0%) | ![m0](results/gifs/compare/shelf-place-v3_m0.gif) | ![m1](results/gifs/compare/shelf-place-v3_m1.gif) | ![m2](results/gifs/compare/shelf-place-v3_m2.gif) |
+| disassemble-v3 (10% / 10% / 0%) | ![m0](results/gifs/compare/disassemble-v3_m0.gif) | ![m1](results/gifs/compare/disassemble-v3_m1.gif) | ![m2](results/gifs/compare/disassemble-v3_m2.gif) |
 
-| M2 on push-v3: 20% to 70% | M2 on bin-picking-v3: 20% to 60% | M2 on basketball-v3: 20% to 40% |
-|---------------------------|----------------------------------|---------------------------------|
-| ![push success](results/gifs/push_success.gif) | ![bin-picking success](results/gifs/binpicking_success.gif) | ![basketball success](results/gifs/basketball_success.gif) |
-
-**On the tasks M2 was not trained on, it fails:**
-
-| M2 on door-close-v3: 100% to 0% | M2 on button-press-v3: 80% to 0% |
-|--------------------------------|----------------------------------|
-| ![door-close forgetting](results/gifs/doorclose_forgot.gif) | ![button-press forgetting](results/gifs/buttonpress_forgot.gif) |
-
-## Model comparison (all tasks, all models)
-
-Each cell is one rollout: the first successful episode, or episode 0 when the model never succeeded on that task. The numbers are success rates M0 / M1 / M2.
-
-| Task (M0 / M1 / M2) | M0 (base) | M1 (multi-task) | M2 (specialized) |
-|---------------------|-----------|-----------------|-------------------|
-| door-close-v3 (100 / 100 / 0) | ![m0](results/gifs/compare/door-close-v3_m0.gif) | ![m1](results/gifs/compare/door-close-v3_m1.gif) | ![m2](results/gifs/compare/door-close-v3_m2.gif) |
-| button-press-topdown-v3 (80 / 80 / 0) | ![m0](results/gifs/compare/button-press-topdown-v3_m0.gif) | ![m1](results/gifs/compare/button-press-topdown-v3_m1.gif) | ![m2](results/gifs/compare/button-press-topdown-v3_m2.gif) |
-| reach-v3 (30 / 30 / 20) | ![m0](results/gifs/compare/reach-v3_m0.gif) | ![m1](results/gifs/compare/reach-v3_m1.gif) | ![m2](results/gifs/compare/reach-v3_m2.gif) |
-| basketball-v3 (20 / 20 / 40) | ![m0](results/gifs/compare/basketball-v3_m0.gif) | ![m1](results/gifs/compare/basketball-v3_m1.gif) | ![m2](results/gifs/compare/basketball-v3_m2.gif) |
-| bin-picking-v3 (20 / 20 / 60) | ![m0](results/gifs/compare/bin-picking-v3_m0.gif) | ![m1](results/gifs/compare/bin-picking-v3_m1.gif) | ![m2](results/gifs/compare/bin-picking-v3_m2.gif) |
-| sweep-v3 (10 / 10 / 0) | ![m0](results/gifs/compare/sweep-v3_m0.gif) | ![m1](results/gifs/compare/sweep-v3_m1.gif) | ![m2](results/gifs/compare/sweep-v3_m2.gif) |
-| coffee-push-v3 (0 / 0 / 0) | ![m0](results/gifs/compare/coffee-push-v3_m0.gif) | ![m1](results/gifs/compare/coffee-push-v3_m1.gif) | ![m2](results/gifs/compare/coffee-push-v3_m2.gif) |
-| pick-place-v3 (20 / 20 / 10) | ![m0](results/gifs/compare/pick-place-v3_m0.gif) | ![m1](results/gifs/compare/pick-place-v3_m1.gif) | ![m2](results/gifs/compare/pick-place-v3_m2.gif) |
-| push-v3 (20 / 20 / 70) | ![m0](results/gifs/compare/push-v3_m0.gif) | ![m1](results/gifs/compare/push-v3_m1.gif) | ![m2](results/gifs/compare/push-v3_m2.gif) |
-| assembly-v3 (0 / 0 / 0) | ![m0](results/gifs/compare/assembly-v3_m0.gif) | ![m1](results/gifs/compare/assembly-v3_m1.gif) | ![m2](results/gifs/compare/assembly-v3_m2.gif) |
-| shelf-place-v3 (10 / 10 / 0) | ![m0](results/gifs/compare/shelf-place-v3_m0.gif) | ![m1](results/gifs/compare/shelf-place-v3_m1.gif) | ![m2](results/gifs/compare/shelf-place-v3_m2.gif) |
-| disassemble-v3 (10 / 10 / 0) | ![m0](results/gifs/compare/disassemble-v3_m0.gif) | ![m1](results/gifs/compare/disassemble-v3_m1.gif) | ![m2](results/gifs/compare/disassemble-v3_m2.gif) |
+† = one of the four tasks M2 was fine-tuned on (basketball, bin-picking, pick-place, push).
 
 ## Findings
 
