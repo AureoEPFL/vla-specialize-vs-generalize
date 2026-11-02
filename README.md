@@ -1,25 +1,24 @@
-# Fine-tuning a Vision-Language-Action model for robotic manipulation
+# SmolVLA: Fine-tuning a Vision-Language-Action Model for Robotic Manipulation
 
-**Can you fine-tune a small open-source VLA (Vision-Language-Action) model to do real manipulation tasks — on a free GPU, entirely in simulation, with no robot?**
+A reproducible study of VLA fine-tuning under compute constraints. We fine-tune SmolVLA (450M parameters) on LeRobot datasets and evaluate it in the Meta-World simulator, to study two questions: does a broad multi-task fine-tune improve over the pretrained base, and does specializing on a few tasks cause catastrophic forgetting on the others.
 
-This repository documents a complete, reproducible experiment: fine-tuning **[SmolVLA](https://huggingface.co/lerobot/smolvla_base)** (a 450M-parameter VLA) on **[LeRobot](https://github.com/huggingface/lerobot)** datasets and evaluating it in the **[Meta-World](https://meta-world.github.io/)** simulator. The goal is not just to "make it work", but to answer a concrete research question about *how* to fine-tune a VLA with limited compute.
+## Research questions
 
----
+1. Does fine-tuning a small VLA on a broad multi-task benchmark improve over the pretrained base?
+2. Does specializing on a few tasks improve performance on those tasks, and at what cost on the others?
 
-## The research question
+## Models and evaluation setup
 
-> **Does fine-tuning a small VLA on a broad multi-task benchmark help more than specializing it on a few tasks — and does specialization cause "catastrophic forgetting" on the tasks you didn't train on?**
-
-To answer this, we compare **three models + one reference**, all evaluated on the **same 12 tasks**:
+Three models are compared against a scripted expert policy, all evaluated on the same 12 tasks:
 
 | Model | Starting point | Training data | Steps |
 |-------|----------------|---------------|-------|
-| **M0** | `lerobot/smolvla_base` (off-the-shelf) | — | 0 |
-| **M1** | fresh SmolVLA | MT50 (50 tasks, 2 500 demos) | 10 000 |
-| **M2** | fresh SmolVLA | 4 tasks only (basketball, bin-picking, pick-place, push) | 6 000 |
-| **Expert** | — | scripted `Sawyer*V3Policy` | — (≈100% ceiling) |
+| M0 | `lerobot/smolvla_base` | none (pretrained generalist) | 0 |
+| M1 | fresh SmolVLA | MT50 (50 tasks, 2500 demos) | 10000 |
+| M2 | fresh SmolVLA | 4 tasks (basketball, bin-picking, pick-place, push) | 6000 |
+| Expert | scripted Sawyer policies | none | about 100 percent |
 
-The 12 evaluation tasks are stratified by difficulty (from Meta-World's official ranking):
+The evaluation set is stratified by Meta-World's difficulty ranking:
 
 | Difficulty | Tasks |
 |-----------|-------|
@@ -28,16 +27,62 @@ The 12 evaluation tasks are stratified by difficulty (from Meta-World's official
 | hard (3) | pick-place, push, assembly |
 | very-hard (2) | shelf-place, disassemble |
 
----
+## Architecture
 
-## Results (preliminary)
+SmolVLA adapts a pretrained vision-language model (SmolVLM2) into a policy. The vision encoder and the language model stay frozen; a small action expert is trained on top of the VLM's hidden states. Following the original paper, the action expert predicts an action chunk with flow matching.
+
+```
+images (480x480) + language instruction
+        |
+        v
+Vision encoder (SmolVLM2 / SigLIP)        frozen
+        |
+        v
+Language model (16 SmolVLM2 layers)       frozen
+        |
+        v
+Action expert (about 100M params)         trained
+        |
+        v
+action chunk [a_t ... a_t+49] (50 steps, 4-D)
+```
+
+| Component | Parameters | State |
+|-----------|------------|-------|
+| Vision encoder | about 0.4B | frozen |
+| Language model (16 layers) | - | frozen |
+| Action expert | about 100M | trained |
+| Total | about 450M | |
+
+The training objective is flow matching: the action expert learns a velocity field that transports Gaussian noise to the target action chunk. The reported loss is the mean squared error on that velocity prediction.
+
+The policy predicts 50 actions at once and executes them, decoupling inference from control.
+
+Reference: SmolVLA, Shukor et al., arXiv:2506.01844.
+
+## Training configuration
+
+```bash
+lerobot-train \
+  --policy.type=smolvla \
+  --policy.load_vlm_weights=true \
+  --dataset.repo_id=lerobot/metaworld_mt50 \
+  --batch_size=32 --steps=10000 \
+  --save_freq=2000 --log_freq=100 \
+  --output_dir=./outputs/metaworld \
+  --wandb.enable=false
+```
+
+Only the action expert receives gradients. Checkpoints are saved every 2000 steps with weights, optimizer and scheduler state, which allows resuming a run after an environment timeout.
+
+## Results
 
 ![Success rate by task](results/success_rate.svg)
 
-| Task | Difficulty | M0 (base) | M1 (MT50) |
-|------|-----------|-----------|-----------|
-| door-close-v3 | easy | **100%** | 100% |
-| button-press-topdown-v3 | easy | **80%** | 80% |
+| Task | Difficulty | M0 | M1 |
+|------|-----------|----|----|
+| door-close-v3 | easy | 100% | 100% |
+| button-press-topdown-v3 | easy | 80% | 80% |
 | reach-v3 | easy | 30% | 30% |
 | basketball-v3 | medium | 20% | 20% |
 | bin-picking-v3 | medium | 20% | 20% |
@@ -48,110 +93,89 @@ The 12 evaluation tasks are stratified by difficulty (from Meta-World's official
 | assembly-v3 | hard | 0% | 0% |
 | shelf-place-v3 | very-hard | 10% | 10% |
 | disassemble-v3 | very-hard | 10% | 10% |
-| **Mean** | — | **≈ 27%** | **≈ 27%** |
+| Mean | | about 27% | about 27% |
 
-*(10 episodes/task, 95% Wilson CI reported in the raw `eval_info.json`.)*
+Results are reported over 10 episodes per task. The 95% Wilson confidence interval of each task is available in the raw `eval_info.json` files.
 
-### 🔑 Key finding #1 — the base model is already competent
+## Findings
 
-`lerobot/smolvla_base` is **not** an untrained model: it's a generalist VLA pre-trained on community manipulation data. Off-the-shelf, it already achieves **100% on door-close** and **80% on button-press**.
+**The pretrained base is already competent.** `lerobot/smolvla_base` is a generalist VLA pretrained on community manipulation data. Without any fine-tuning it scores 100% on door-close and 80% on button-press.
 
-### 🔑 Key finding #2 — a short multi-task fine-tune changes nothing
+**A short multi-task fine-tune does not change behaviour.** M1 is statistically identical to M0. A 10,000-step run with batch size 32 corresponds to roughly 0.25 epoch over MT50, which is not enough to move a 450M parameter model. The training loss decreased from 0.44 to 0.14, but the observable success rate did not change.
 
-M1 (10 000 steps on 50 tasks) is **statistically identical** to M0. Why? 10k steps × batch 32 ≈ **0.25 epoch** over the MT50 dataset — far too little to move a 450M-parameter model. The loss *did* decrease (0.44 → 0.14), but the observable behavior didn't budge.
+**Specialization produces the expected trade-off.** Preliminary M2 results, specialised on four tasks, show the classic specialization effect:
 
-This is the honest, documented result: **with limited compute, a broad multi-task fine-tune gives no measurable gain.**
+| Task | Trained by M2 | M0/M1 | M2 |
+|------|---------------|-------|-----|
+| basketball | yes | 20% | 40% |
+| bin-picking | yes | 20% | 60% |
+| door-close | no | 100% | 0% |
+| button-press | no | 80% | 0% |
+| sweep | no | 10% | 0% |
 
----
+Specialization improves the tasks that were trained on and causes catastrophic forgetting on the others.
 
-## What's coming (in progress)
+## Improvement directions
 
-**M2 — the specialization experiment.** The insight behind it: training on *fewer* tasks concentrates the same compute into many more epochs per task.
+| Direction | Effort | Expected gain |
+|-----------|--------|---------------|
+| Train longer (10k to 50k or 100k steps) | about 5x compute | Main lever; 10k steps is roughly 0.25 epoch |
+| Unfreeze the last VLM layers | low | Adapts visual features to the new embodiment |
+| Wider or deeper action expert | low | More capacity for the policy head |
+| Use more VLM layers | low | More reasoning, slower inference |
+| Additional or better data | high | Largest long-term gain |
+| LoRA or PEFT on the VLM | low | Cheap domain adaptation |
+| More evaluation episodes (10 to 50) | low | Tighter confidence intervals |
 
-| | M1 (multi-task) | M2 (specialized) |
-|---|---|---|
-| Tasks | 50 | 4 |
-| Epochs per task (6-10k steps) | ~1.5 | **~12-20** |
+The main limitation is compute. A 10,000-step run is a demonstration budget rather than a research budget, and every direction above is a lever on that budget.
 
-So M2 should actually *move* the model this time. The open questions:
+## Reproduce
 
-- **Specialization helps?** Does M2 beat M0/M1 on the 4 tasks it trained on?
-- **Catastrophic forgetting?** Does M2 get *worse* on the 8 tasks it didn't train on?
+```bash
+# install LeRobot (pinned for reproducibility)
+git clone https://github.com/huggingface/lerobot.git && cd lerobot
+git checkout d3793b7e36522321c1c455f0dc4826db3793dceb
+pip install -e ".[smolvla,dataset]"
+pip install "metaworld==3.1.1" "mujoco==3.3.0"
 
-Once M2 is trained and evaluated, the final comparison will be:
+# fine-tune
+lerobot-train --policy.type=smolvla --policy.load_vlm_weights=true \
+  --dataset.repo_id=lerobot/metaworld_mt50 --batch_size=32 --steps=10000 \
+  --output_dir=./outputs/metaworld --wandb.enable=false
 
-| Task | M0 (base) | M1 (MT50) | M2 (specialized) | Expert (ceiling) |
-|------|-----------|-----------|------------------|------------------|
-| … 12 tasks … | | | | |
-
-→ Stay tuned — this is the main deliverable.
-
----
-
-## How it works (the pipeline)
-
+# evaluate in Meta-World
+lerobot-eval --policy.path=./outputs/metaworld/checkpoints/010000/pretrained_model \
+  --env.type=metaworld --env.task=pick-place-v3 --eval.batch_size=1 --eval.n_episodes=10
 ```
-┌──────────────┐    ┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
-│  LeRobot      │──▶ │  Fine-tune      │──▶ │  Evaluate in      │──▶ │  Report          │
-│  dataset      │    │  SmolVLA (VLA)  │    │  Meta-World (sim) │    │  success rate    │
-│  (HF Hub)     │    │  on Kaggle T4   │    │  MuJoCo + Sawyer  │    │  + demo videos   │
-└──────────────┘    └─────────────────┘    └──────────────────┘    └─────────────────┘
-```
 
-1. **Fine-tune** `lerobot/smolvla_base` on a LeRobot dataset (`lerobot/metaworld_mt50`) using the LeRobot CLI — on a **free Kaggle T4 GPU** (no local GPU needed).
-2. **Evaluate** the policy in the **Meta-World** simulator (a MuJoCo-based Sawyer arm benchmark), measuring the per-task success rate.
-3. **Record** rollout videos — successes *and* failures — for visual inspection.
+Notes from reproducing the pipeline:
 
-### Demo videos (success & failure)
-
-Rollout videos are in [`results/eval_pickplace/.../videos/pick-place-v3_0/`](results/eval_pickplace/output/eval/2026-10-25/14-13-20_metaworld_smolvla/videos/pick-place-v3_0/):
-
-- ✅ **Success** — [episode 7](results/eval_pickplace/output/eval/2026-10-25/14-13-20_metaworld_smolvla/videos/pick-place-v3_0/eval_episode_7.mp4) and [episode 9](results/eval_pickplace/output/eval/2026-10-25/14-13-20_metaworld_smolvla/videos/pick-place-v3_0/eval_episode_9.mp4): clean grasp → lift → place at the goal.
-- ❌ **Failure** — [episode 0](results/eval_pickplace/output/eval/2026-10-25/14-13-20_metaworld_smolvla/videos/pick-place-v3_0/eval_episode_0.mp4) and [episode 4](results/eval_pickplace/output/eval/2026-10-25/14-13-20_metaworld_smolvla/videos/pick-place-v3_0/eval_episode_4.mp4): misses the grasp / places the puck short.
-
-*(Animated GIFs are coming — they'll be generated on Kaggle once the M2 run frees the GPU.)*
-
----
-
-## Technical details
-
-- **Model**: [SmolVLA](https://arxiv.org/abs/2506.01844) — 450M params, SmolVLM2-500M vision-language backbone + a ~100M-param action expert (vision encoder frozen, action expert trained).
-- **Framework**: LeRobot (pinned to commit `d3793b7e` for reproducibility).
-- **Compute**: free Kaggle notebooks (Tesla T4 ×2, ~12h/session). Long runs are **resumed across sessions** via `--resume=true --config_path=<checkpoint>`.
-- **Environment**: Meta-World `pick-place`/`push`/… tasks (Sawyer arm, 4-dim action), `metaworld==3.1.1` + `mujoco==3.3.0`.
-- **Metric**: success rate (task-completion flag from the simulator), with 95% Wilson confidence intervals.
-
-### Reproducibility notes (gotchas we hit)
-
-- LeRobot's Meta-World tasks use **`-v3` names** (`pick-place-v3`), not `-v2`.
-- `metaworld==3.0.0` breaks with MuJoCo 3 → pin `metaworld==3.1.1` + `mujoco==3.3.0`.
-- Fine-tuning from `--policy.path=lerobot/smolvla_base` fails on Meta-World (feature mismatch: the base was trained on a 3-camera/6-dim robot). Use `--policy.type=smolvla --policy.load_vlm_weights=true` instead.
-- Kaggle's 12h timeout kills ~10k-step runs → save checkpoints every 2000 steps and resume.
-
----
+- Meta-World task names use the `-v3` suffix, for example `pick-place-v3`.
+- `metaworld==3.0.0` is incompatible with MuJoCo 3, so pin `metaworld==3.1.1` and `mujoco==3.3.0`.
+- Fine-tuning from `--policy.path=lerobot/smolvla_base` fails on Meta-World because the base model expects a different camera and state layout. Use `--policy.type=smolvla --policy.load_vlm_weights=true` instead.
+- Long runs can exceed a notebook session limit, so enable checkpointing and resume with `--resume=true --config_path=<checkpoint>/pretrained_model`.
 
 ## Repository layout
 
 ```
 ros-vla-manip/
-├─ README.md
-├─ docs/                  ← STATE_OF_THE_ART, SETUP, ARCHITECTURE, TRAINING, EXPERIMENT_PLAN
-├─ vla/                   ← fine-tuning & evaluation notebooks
-├─ results/               ← metrics (loss, success rate) + eval videos/gifs
-├─ sim/                   ← Gazebo/ROS worlds & robot config (optional deployment)
-├─ ros2_ws/               ← ROS 2 workspace (optional deployment)
-├─ docker/                ← reproducible container
-└─ eval/                  ← evaluation utilities
+  README.md
+  docs/        literature review, setup, architecture, training, pipeline
+  vla/         fine-tuning and evaluation notebooks
+  results/     metrics, success-rate plot, evaluation videos
+  sim/         Gazebo and ROS worlds
+  ros2_ws/     ROS 2 workspace
+  docker/      reproducible container
+  eval/        evaluation utilities
 ```
 
-## Roadmap
+## Citations
 
-- [x] Fine-tune SmolVLA on MT50 (M1) + evaluate → documented "no measurable gain" finding
-- [x] Baseline M0 (off-the-shelf SmolVLA) evaluation
-- [ ] **M2** specialized fine-tune + evaluation (in progress)
-- [ ] Final multi-task vs. specialized comparison + report
-- [ ] (Stretch) ROS 2 + Gazebo deployment of the fine-tuned policy
+- SmolVLA, Shukor et al., arXiv:2506.01844 (2025).
+- LeRobot, Hugging Face, https://github.com/huggingface/lerobot
+- Meta-World, Yu et al., CoRL 2019.
+- MuJoCo, Todorov et al., IROS 2012.
 
 ## License
 
-[MIT](LICENSE)
+MIT
