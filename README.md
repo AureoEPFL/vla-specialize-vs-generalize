@@ -60,9 +60,9 @@ The policy predicts 50 actions at once and executes them, decoupling inference f
 
 Reference: SmolVLA, Shukor et al., arXiv:2506.01844.
 
-![SmolVLA architecture](results/architecture.svg)
+![SmolVLA architecture, Figure 1 of the paper](results/SmolVLA.png)
 
-*SmolVLA architecture: the frozen vision encoder and language decoder feed a trained action expert that outputs an action chunk with flow matching. For the original diagram, see Figure 1 of the paper (arXiv:2506.01844).*
+*Figure 1 from the SmolVLA paper: a compact pretrained VLM (last layers discarded, scissors) embeds the language instruction, RGB images and robot state; the resulting tokens feed an action expert of interleaved cross-attention and self-attention blocks, trained with flow matching to output an action chunk.*
 
 ## Training configuration
 
@@ -81,9 +81,9 @@ Only the action expert receives gradients. Checkpoints are saved every 2000 step
 
 ### Training curve
 
-![Training loss](results/loss_curve.svg)
+![Training loss](results/loss_curves.svg)
 
-The loss drops quickly in the first few hundred steps and then plateaus, which is the expected behaviour for a frozen backbone with a small trained head. The training curves for the M1 (MT50) and M2 (4 tasks) runs are logged in their respective Kaggle runs.
+Real training loss, extracted from the Kaggle training logs. M2 (specialized, 6,000 steps) decreases from 1.108 to 0.057. The retrievable M1 log covers the first 2,000 steps of the run (1.885 to 0.281); the M1 training was then extended to 10,000 steps across further Kaggle runs whose per-step logs are not in this repository.
 
 ## Results
 
