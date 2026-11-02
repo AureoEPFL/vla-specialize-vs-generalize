@@ -1,0 +1,118 @@
+{
+  "per_task": [
+    {
+      "task_group": "reach-v3",
+      "task_id": 0,
+      "metrics": {
+        "sum_rewards": [
+          1924.2569090216778,
+          561.4839066236963,
+          2193.5240626500936,
+          1244.6123351475635,
+          1117.5191585500584,
+          3296.2489114811433,
+          900.5045382771856,
+          2614.1858714687305,
+          221.34759662314107,
+          2181.9724284667504
+        ],
+        "max_rewards": [
+          6.138532118500607,
+          1.5250519003364844,
+          7.242847343930129,
+          3.8920227656516055,
+          3.139203152061405,
+          8.275072163558834,
+          2.322505387943932,
+          7.995896000463441,
+          10.0,
+          10.0
+        ],
+        "successes": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          true,
+          true
+        ],
+        "video_paths": [
+          "outputs/eval/2026-11-02/14-37-49_metaworld_smolvla/videos/reach-v3_0/eval_episode_0.mp4",
+          "outputs/eval/2026-11-02/14-37-49_metaworld_smolvla/videos/reach-v3_0/eval_episode_1.mp4",
+          "outputs/eval/2026-11-02/14-37-49_metaworld_smolvla/videos/reach-v3_0/eval_episode_2.mp4",
+          "outputs/eval/2026-11-02/14-37-49_metaworld_smolvla/videos/reach-v3_0/eval_episode_3.mp4",
+          "outputs/eval/2026-11-02/14-37-49_metaworld_smolvla/videos/reach-v3_0/eval_episode_4.mp4",
+          "outputs/eval/2026-11-02/14-37-49_metaworld_smolvla/videos/reach-v3_0/eval_episode_5.mp4",
+          "outputs/eval/2026-11-02/14-37-49_metaworld_smolvla/videos/reach-v3_0/eval_episode_6.mp4",
+          "outputs/eval/2026-11-02/14-37-49_metaworld_smolvla/videos/reach-v3_0/eval_episode_7.mp4",
+          "outputs/eval/2026-11-02/14-37-49_metaworld_smolvla/videos/reach-v3_0/eval_episode_8.mp4",
+          "outputs/eval/2026-11-02/14-37-49_metaworld_smolvla/videos/reach-v3_0/eval_episode_9.mp4"
+        ],
+        "predicted_video_paths": []
+      },
+      "n_episodes": 10,
+      "n_success": 2,
+      "pc_success": 20.0,
+      "pc_success_ci95": [
+        5.668215145437524,
+        50.98375284633582
+      ]
+    }
+  ],
+  "per_group": {
+    "reach-v3": {
+      "avg_sum_reward": 1625.565571831004,
+      "avg_max_reward": 6.053113083244644,
+      "pc_success": 20.0,
+      "n_episodes": 10,
+      "n_success": 2,
+      "pc_success_ci95": [
+        5.668215145437524,
+        50.98375284633582
+      ],
+      "video_paths": [
+        "outputs/eval/2026-11-02/14-37-49_metaworld_smolvla/videos/reach-v3_0/eval_episode_0.mp4",
+        "outputs/eval/2026-11-02/14-37-49_metaworld_smolvla/videos/reach-v3_0/eval_episode_1.mp4",
+        "outputs/eval/2026-11-02/14-37-49_metaworld_smolvla/videos/reach-v3_0/eval_episode_2.mp4",
+        "outputs/eval/2026-11-02/14-37-49_metaworld_smolvla/videos/reach-v3_0/eval_episode_3.mp4",
+        "outputs/eval/2026-11-02/14-37-49_metaworld_smolvla/videos/reach-v3_0/eval_episode_4.mp4",
+        "outputs/eval/2026-11-02/14-37-49_metaworld_smolvla/videos/reach-v3_0/eval_episode_5.mp4",
+        "outputs/eval/2026-11-02/14-37-49_metaworld_smolvla/videos/reach-v3_0/eval_episode_6.mp4",
+        "outputs/eval/2026-11-02/14-37-49_metaworld_smolvla/videos/reach-v3_0/eval_episode_7.mp4",
+        "outputs/eval/2026-11-02/14-37-49_metaworld_smolvla/videos/reach-v3_0/eval_episode_8.mp4",
+        "outputs/eval/2026-11-02/14-37-49_metaworld_smolvla/videos/reach-v3_0/eval_episode_9.mp4"
+      ],
+      "predicted_video_paths": []
+    }
+  },
+  "overall": {
+    "avg_sum_reward": 1625.565571831004,
+    "avg_max_reward": 6.053113083244644,
+    "pc_success": 20.0,
+    "n_episodes": 10,
+    "n_success": 2,
+    "pc_success_ci95": [
+      5.668215145437524,
+      50.98375284633582
+    ],
+    "eval_s": 1270.5550005435944,
+    "eval_ep_s": 127.05550017356873,
+    "video_paths": [
+      "outputs/eval/2026-11-02/14-37-49_metaworld_smolvla/videos/reach-v3_0/eval_episode_0.mp4",
+      "outputs/eval/2026-11-02/14-37-49_metaworld_smolvla/videos/reach-v3_0/eval_episode_1.mp4",
+      "outputs/eval/2026-11-02/14-37-49_metaworld_smolvla/videos/reach-v3_0/eval_episode_2.mp4",
+      "outputs/eval/2026-11-02/14-37-49_metaworld_smolvla/videos/reach-v3_0/eval_episode_3.mp4",
+      "outputs/eval/2026-11-02/14-37-49_metaworld_smolvla/videos/reach-v3_0/eval_episode_4.mp4",
+      "outputs/eval/2026-11-02/14-37-49_metaworld_smolvla/videos/reach-v3_0/eval_episode_5.mp4",
+      "outputs/eval/2026-11-02/14-37-49_metaworld_smolvla/videos/reach-v3_0/eval_episode_6.mp4",
+      "outputs/eval/2026-11-02/14-37-49_metaworld_smolvla/videos/reach-v3_0/eval_episode_7.mp4",
+      "outputs/eval/2026-11-02/14-37-49_metaworld_smolvla/videos/reach-v3_0/eval_episode_8.mp4",
+      "outputs/eval/2026-11-02/14-37-49_metaworld_smolvla/videos/reach-v3_0/eval_episode_9.mp4"
+    ],
+    "predicted_video_paths": []
+  }
+}

@@ -1,0 +1,118 @@
+{
+  "per_task": [
+    {
+      "task_group": "disassemble-v3",
+      "task_id": 0,
+      "metrics": {
+        "sum_rewards": [
+          83.1529400985903,
+          0.0,
+          96.4357216130871,
+          128.60443370596175,
+          109.4240536565377,
+          213.45410845985634,
+          124.64725445880012,
+          60.73188222840726,
+          107.62210077809534,
+          203.6801054290243
+        ],
+        "max_rewards": [
+          1.0391910667101092,
+          0.0,
+          1.03620368441191,
+          1.0375340569534381,
+          1.0371458696792957,
+          1.0372267091378187,
+          1.0374988628030033,
+          0.7956553799400593,
+          1.0296336881924517,
+          1.020694974271729
+        ],
+        "successes": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ],
+        "video_paths": [
+          "outputs/eval/2026-11-02/18-09-47_metaworld_smolvla/videos/disassemble-v3_0/eval_episode_0.mp4",
+          "outputs/eval/2026-11-02/18-09-47_metaworld_smolvla/videos/disassemble-v3_0/eval_episode_1.mp4",
+          "outputs/eval/2026-11-02/18-09-47_metaworld_smolvla/videos/disassemble-v3_0/eval_episode_2.mp4",
+          "outputs/eval/2026-11-02/18-09-47_metaworld_smolvla/videos/disassemble-v3_0/eval_episode_3.mp4",
+          "outputs/eval/2026-11-02/18-09-47_metaworld_smolvla/videos/disassemble-v3_0/eval_episode_4.mp4",
+          "outputs/eval/2026-11-02/18-09-47_metaworld_smolvla/videos/disassemble-v3_0/eval_episode_5.mp4",
+          "outputs/eval/2026-11-02/18-09-47_metaworld_smolvla/videos/disassemble-v3_0/eval_episode_6.mp4",
+          "outputs/eval/2026-11-02/18-09-47_metaworld_smolvla/videos/disassemble-v3_0/eval_episode_7.mp4",
+          "outputs/eval/2026-11-02/18-09-47_metaworld_smolvla/videos/disassemble-v3_0/eval_episode_8.mp4",
+          "outputs/eval/2026-11-02/18-09-47_metaworld_smolvla/videos/disassemble-v3_0/eval_episode_9.mp4"
+        ],
+        "predicted_video_paths": []
+      },
+      "n_episodes": 10,
+      "n_success": 0,
+      "pc_success": 0.0,
+      "pc_success_ci95": [
+        2.7755575615628914e-15,
+        27.753279986288916
+      ]
+    }
+  ],
+  "per_group": {
+    "disassemble-v3": {
+      "avg_sum_reward": 112.77526004283602,
+      "avg_max_reward": 0.9070784292099814,
+      "pc_success": 0.0,
+      "n_episodes": 10,
+      "n_success": 0,
+      "pc_success_ci95": [
+        2.7755575615628914e-15,
+        27.753279986288916
+      ],
+      "video_paths": [
+        "outputs/eval/2026-11-02/18-09-47_metaworld_smolvla/videos/disassemble-v3_0/eval_episode_0.mp4",
+        "outputs/eval/2026-11-02/18-09-47_metaworld_smolvla/videos/disassemble-v3_0/eval_episode_1.mp4",
+        "outputs/eval/2026-11-02/18-09-47_metaworld_smolvla/videos/disassemble-v3_0/eval_episode_2.mp4",
+        "outputs/eval/2026-11-02/18-09-47_metaworld_smolvla/videos/disassemble-v3_0/eval_episode_3.mp4",
+        "outputs/eval/2026-11-02/18-09-47_metaworld_smolvla/videos/disassemble-v3_0/eval_episode_4.mp4",
+        "outputs/eval/2026-11-02/18-09-47_metaworld_smolvla/videos/disassemble-v3_0/eval_episode_5.mp4",
+        "outputs/eval/2026-11-02/18-09-47_metaworld_smolvla/videos/disassemble-v3_0/eval_episode_6.mp4",
+        "outputs/eval/2026-11-02/18-09-47_metaworld_smolvla/videos/disassemble-v3_0/eval_episode_7.mp4",
+        "outputs/eval/2026-11-02/18-09-47_metaworld_smolvla/videos/disassemble-v3_0/eval_episode_8.mp4",
+        "outputs/eval/2026-11-02/18-09-47_metaworld_smolvla/videos/disassemble-v3_0/eval_episode_9.mp4"
+      ],
+      "predicted_video_paths": []
+    }
+  },
+  "overall": {
+    "avg_sum_reward": 112.77526004283602,
+    "avg_max_reward": 0.9070784292099814,
+    "pc_success": 0.0,
+    "n_episodes": 10,
+    "n_success": 0,
+    "pc_success_ci95": [
+      2.7755575615628914e-15,
+      27.753279986288916
+    ],
+    "eval_s": 1488.2180862426758,
+    "eval_ep_s": 148.82180869579315,
+    "video_paths": [
+      "outputs/eval/2026-11-02/18-09-47_metaworld_smolvla/videos/disassemble-v3_0/eval_episode_0.mp4",
+      "outputs/eval/2026-11-02/18-09-47_metaworld_smolvla/videos/disassemble-v3_0/eval_episode_1.mp4",
+      "outputs/eval/2026-11-02/18-09-47_metaworld_smolvla/videos/disassemble-v3_0/eval_episode_2.mp4",
+      "outputs/eval/2026-11-02/18-09-47_metaworld_smolvla/videos/disassemble-v3_0/eval_episode_3.mp4",
+      "outputs/eval/2026-11-02/18-09-47_metaworld_smolvla/videos/disassemble-v3_0/eval_episode_4.mp4",
+      "outputs/eval/2026-11-02/18-09-47_metaworld_smolvla/videos/disassemble-v3_0/eval_episode_5.mp4",
+      "outputs/eval/2026-11-02/18-09-47_metaworld_smolvla/videos/disassemble-v3_0/eval_episode_6.mp4",
+      "outputs/eval/2026-11-02/18-09-47_metaworld_smolvla/videos/disassemble-v3_0/eval_episode_7.mp4",
+      "outputs/eval/2026-11-02/18-09-47_metaworld_smolvla/videos/disassemble-v3_0/eval_episode_8.mp4",
+      "outputs/eval/2026-11-02/18-09-47_metaworld_smolvla/videos/disassemble-v3_0/eval_episode_9.mp4"
+    ],
+    "predicted_video_paths": []
+  }
+}

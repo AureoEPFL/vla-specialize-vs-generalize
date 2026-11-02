@@ -1,0 +1,13 @@
+difficulty,task,pc_success,n_success,n_episodes
+easy,door-close-v3,0.0,0,10
+easy,reach-v3,20.0,2,10
+easy,button-press-topdown-v3,0.0,0,10
+medium,basketball-v3,40.0,4,10
+medium,bin-picking-v3,60.0,6,10
+medium,coffee-push-v3,0.0,0,10
+medium,sweep-v3,0.0,0,10
+hard,pick-place-v3,10.0,1,10
+hard,push-v3,70.0,7,10
+hard,assembly-v3,0.0,0,10
+very_hard,shelf-place-v3,0.0,0,10
+very_hard,disassemble-v3,0.0,0,10

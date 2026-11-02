@@ -1,0 +1,118 @@
+{
+  "per_task": [
+    {
+      "task_group": "door-close-v3",
+      "task_id": 0,
+      "metrics": {
+        "sum_rewards": [
+          146.9337300333666,
+          151.81355445683658,
+          172.51963953812322,
+          166.7597548743575,
+          154.55794220343847,
+          151.4125611005397,
+          142.04005841061453,
+          151.51597240395614,
+          234.79561080856863,
+          154.66790972231746
+        ],
+        "max_rewards": [
+          0.3716515623593519,
+          0.49376219585963615,
+          0.4285535183610359,
+          0.47323277655849455,
+          0.3957284764874102,
+          0.5424716098240232,
+          0.3591958482326101,
+          0.4078917813833796,
+          0.5847212758123269,
+          0.37930595163458064
+        ],
+        "successes": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ],
+        "video_paths": [
+          "outputs/eval/2026-11-02/14-11-32_metaworld_smolvla/videos/door-close-v3_0/eval_episode_0.mp4",
+          "outputs/eval/2026-11-02/14-11-32_metaworld_smolvla/videos/door-close-v3_0/eval_episode_1.mp4",
+          "outputs/eval/2026-11-02/14-11-32_metaworld_smolvla/videos/door-close-v3_0/eval_episode_2.mp4",
+          "outputs/eval/2026-11-02/14-11-32_metaworld_smolvla/videos/door-close-v3_0/eval_episode_3.mp4",
+          "outputs/eval/2026-11-02/14-11-32_metaworld_smolvla/videos/door-close-v3_0/eval_episode_4.mp4",
+          "outputs/eval/2026-11-02/14-11-32_metaworld_smolvla/videos/door-close-v3_0/eval_episode_5.mp4",
+          "outputs/eval/2026-11-02/14-11-32_metaworld_smolvla/videos/door-close-v3_0/eval_episode_6.mp4",
+          "outputs/eval/2026-11-02/14-11-32_metaworld_smolvla/videos/door-close-v3_0/eval_episode_7.mp4",
+          "outputs/eval/2026-11-02/14-11-32_metaworld_smolvla/videos/door-close-v3_0/eval_episode_8.mp4",
+          "outputs/eval/2026-11-02/14-11-32_metaworld_smolvla/videos/door-close-v3_0/eval_episode_9.mp4"
+        ],
+        "predicted_video_paths": []
+      },
+      "n_episodes": 10,
+      "n_success": 0,
+      "pc_success": 0.0,
+      "pc_success_ci95": [
+        2.7755575615628914e-15,
+        27.753279986288916
+      ]
+    }
+  ],
+  "per_group": {
+    "door-close-v3": {
+      "avg_sum_reward": 162.70167335521188,
+      "avg_max_reward": 0.4436514996512849,
+      "pc_success": 0.0,
+      "n_episodes": 10,
+      "n_success": 0,
+      "pc_success_ci95": [
+        2.7755575615628914e-15,
+        27.753279986288916
+      ],
+      "video_paths": [
+        "outputs/eval/2026-11-02/14-11-32_metaworld_smolvla/videos/door-close-v3_0/eval_episode_0.mp4",
+        "outputs/eval/2026-11-02/14-11-32_metaworld_smolvla/videos/door-close-v3_0/eval_episode_1.mp4",
+        "outputs/eval/2026-11-02/14-11-32_metaworld_smolvla/videos/door-close-v3_0/eval_episode_2.mp4",
+        "outputs/eval/2026-11-02/14-11-32_metaworld_smolvla/videos/door-close-v3_0/eval_episode_3.mp4",
+        "outputs/eval/2026-11-02/14-11-32_metaworld_smolvla/videos/door-close-v3_0/eval_episode_4.mp4",
+        "outputs/eval/2026-11-02/14-11-32_metaworld_smolvla/videos/door-close-v3_0/eval_episode_5.mp4",
+        "outputs/eval/2026-11-02/14-11-32_metaworld_smolvla/videos/door-close-v3_0/eval_episode_6.mp4",
+        "outputs/eval/2026-11-02/14-11-32_metaworld_smolvla/videos/door-close-v3_0/eval_episode_7.mp4",
+        "outputs/eval/2026-11-02/14-11-32_metaworld_smolvla/videos/door-close-v3_0/eval_episode_8.mp4",
+        "outputs/eval/2026-11-02/14-11-32_metaworld_smolvla/videos/door-close-v3_0/eval_episode_9.mp4"
+      ],
+      "predicted_video_paths": []
+    }
+  },
+  "overall": {
+    "avg_sum_reward": 162.70167335521188,
+    "avg_max_reward": 0.4436514996512849,
+    "pc_success": 0.0,
+    "n_episodes": 10,
+    "n_success": 0,
+    "pc_success_ci95": [
+      2.7755575615628914e-15,
+      27.753279986288916
+    ],
+    "eval_s": 1535.3548138141632,
+    "eval_ep_s": 153.53548147678376,
+    "video_paths": [
+      "outputs/eval/2026-11-02/14-11-32_metaworld_smolvla/videos/door-close-v3_0/eval_episode_0.mp4",
+      "outputs/eval/2026-11-02/14-11-32_metaworld_smolvla/videos/door-close-v3_0/eval_episode_1.mp4",
+      "outputs/eval/2026-11-02/14-11-32_metaworld_smolvla/videos/door-close-v3_0/eval_episode_2.mp4",
+      "outputs/eval/2026-11-02/14-11-32_metaworld_smolvla/videos/door-close-v3_0/eval_episode_3.mp4",
+      "outputs/eval/2026-11-02/14-11-32_metaworld_smolvla/videos/door-close-v3_0/eval_episode_4.mp4",
+      "outputs/eval/2026-11-02/14-11-32_metaworld_smolvla/videos/door-close-v3_0/eval_episode_5.mp4",
+      "outputs/eval/2026-11-02/14-11-32_metaworld_smolvla/videos/door-close-v3_0/eval_episode_6.mp4",
+      "outputs/eval/2026-11-02/14-11-32_metaworld_smolvla/videos/door-close-v3_0/eval_episode_7.mp4",
+      "outputs/eval/2026-11-02/14-11-32_metaworld_smolvla/videos/door-close-v3_0/eval_episode_8.mp4",
+      "outputs/eval/2026-11-02/14-11-32_metaworld_smolvla/videos/door-close-v3_0/eval_episode_9.mp4"
+    ],
+    "predicted_video_paths": []
+  }
+}

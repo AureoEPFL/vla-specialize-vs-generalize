@@ -79,21 +79,21 @@ Only the action expert receives gradients. Checkpoints are saved every 2000 step
 
 ![Success rate by task](results/success_rate.svg)
 
-| Task | Difficulty | M0 | M1 |
-|------|-----------|----|----|
-| door-close-v3 | easy | 100% | 100% |
-| button-press-topdown-v3 | easy | 80% | 80% |
-| reach-v3 | easy | 30% | 30% |
-| basketball-v3 | medium | 20% | 20% |
-| bin-picking-v3 | medium | 20% | 20% |
-| sweep-v3 | medium | 10% | 10% |
-| coffee-push-v3 | medium | 0% | 0% |
-| pick-place-v3 | hard | 20% | 20% |
-| push-v3 | hard | 20% | 20% |
-| assembly-v3 | hard | 0% | 0% |
-| shelf-place-v3 | very-hard | 10% | 10% |
-| disassemble-v3 | very-hard | 10% | 10% |
-| Mean | | about 27% | about 27% |
+| Task | Difficulty | M0 | M1 | M2 |
+|------|-----------|----|----|-----|
+| door-close-v3 | easy | 100% | 100% | 0% |
+| button-press-topdown-v3 | easy | 80% | 80% | 0% |
+| reach-v3 | easy | 30% | 30% | 20% |
+| basketball-v3 | medium | 20% | 20% | 40% |
+| bin-picking-v3 | medium | 20% | 20% | 60% |
+| sweep-v3 | medium | 10% | 10% | 0% |
+| coffee-push-v3 | medium | 0% | 0% | 0% |
+| pick-place-v3 | hard | 20% | 20% | 10% |
+| push-v3 | hard | 20% | 20% | 70% |
+| assembly-v3 | hard | 0% | 0% | 0% |
+| shelf-place-v3 | very-hard | 10% | 10% | 0% |
+| disassemble-v3 | very-hard | 10% | 10% | 0% |
+| Mean | | about 27% | about 27% | about 17% |
 
 Results are reported over 10 episodes per task. The 95% Wilson confidence interval of each task is available in the raw `eval_info.json` files.
 
@@ -103,17 +103,7 @@ Results are reported over 10 episodes per task. The 95% Wilson confidence interv
 
 **A short multi-task fine-tune does not change behaviour.** M1 is statistically identical to M0. A 10,000-step run with batch size 32 corresponds to roughly 0.25 epoch over MT50, which is not enough to move a 450M parameter model. The training loss decreased from 0.44 to 0.14, but the observable success rate did not change.
 
-**Specialization produces the expected trade-off.** Preliminary M2 results, specialised on four tasks, show the classic specialization effect:
-
-| Task | Trained by M2 | M0/M1 | M2 |
-|------|---------------|-------|-----|
-| basketball | yes | 20% | 40% |
-| bin-picking | yes | 20% | 60% |
-| door-close | no | 100% | 0% |
-| button-press | no | 80% | 0% |
-| sweep | no | 10% | 0% |
-
-Specialization improves the tasks that were trained on and causes catastrophic forgetting on the others.
+**Specialization improves trained tasks and causes catastrophic forgetting elsewhere.** M2 was fine-tuned on four tasks (basketball, bin-picking, pick-place, push). On those tasks the success rate increased substantially (push +50, bin-picking +40, basketball +20 percentage points), while every task that was not trained on dropped to zero or near zero (door-close from 100% to 0%, button-press from 80% to 0%). The overall mean therefore falls from about 27% to about 17%: specialization trades breadth for depth. Pick-place is an exception (20% to 10%), which is within the confidence interval of a 10-episode evaluation and should be treated as noise.
 
 ## Improvement directions
 

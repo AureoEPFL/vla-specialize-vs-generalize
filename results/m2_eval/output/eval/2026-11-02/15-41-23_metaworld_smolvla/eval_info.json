@@ -1,0 +1,118 @@
+{
+  "per_task": [
+    {
+      "task_group": "bin-picking-v3",
+      "task_id": 0,
+      "metrics": {
+        "sum_rewards": [
+          31.188049389543423,
+          9.576167467142117,
+          42.01449576821654,
+          31.257073966198888,
+          34.06908316464633,
+          34.46397825518741,
+          30.403118179207006,
+          10.980421368318273,
+          10.50421973312406,
+          30.182475199256228
+        ],
+        "max_rewards": [
+          10.0,
+          0.12816818423006876,
+          0.15662345745196385,
+          10.0,
+          10.0,
+          10.0,
+          10.0,
+          0.12037831503253008,
+          0.11590400618639929,
+          10.0
+        ],
+        "successes": [
+          true,
+          false,
+          false,
+          true,
+          true,
+          true,
+          true,
+          false,
+          false,
+          true
+        ],
+        "video_paths": [
+          "outputs/eval/2026-11-02/15-41-23_metaworld_smolvla/videos/bin-picking-v3_0/eval_episode_0.mp4",
+          "outputs/eval/2026-11-02/15-41-23_metaworld_smolvla/videos/bin-picking-v3_0/eval_episode_1.mp4",
+          "outputs/eval/2026-11-02/15-41-23_metaworld_smolvla/videos/bin-picking-v3_0/eval_episode_2.mp4",
+          "outputs/eval/2026-11-02/15-41-23_metaworld_smolvla/videos/bin-picking-v3_0/eval_episode_3.mp4",
+          "outputs/eval/2026-11-02/15-41-23_metaworld_smolvla/videos/bin-picking-v3_0/eval_episode_4.mp4",
+          "outputs/eval/2026-11-02/15-41-23_metaworld_smolvla/videos/bin-picking-v3_0/eval_episode_5.mp4",
+          "outputs/eval/2026-11-02/15-41-23_metaworld_smolvla/videos/bin-picking-v3_0/eval_episode_6.mp4",
+          "outputs/eval/2026-11-02/15-41-23_metaworld_smolvla/videos/bin-picking-v3_0/eval_episode_7.mp4",
+          "outputs/eval/2026-11-02/15-41-23_metaworld_smolvla/videos/bin-picking-v3_0/eval_episode_8.mp4",
+          "outputs/eval/2026-11-02/15-41-23_metaworld_smolvla/videos/bin-picking-v3_0/eval_episode_9.mp4"
+        ],
+        "predicted_video_paths": []
+      },
+      "n_episodes": 10,
+      "n_success": 6,
+      "pc_success": 60.0,
+      "pc_success_ci95": [
+        31.267376973365828,
+        83.18196702937637
+      ]
+    }
+  ],
+  "per_group": {
+    "bin-picking-v3": {
+      "avg_sum_reward": 26.46390824908402,
+      "avg_max_reward": 6.052107396290096,
+      "pc_success": 60.0,
+      "n_episodes": 10,
+      "n_success": 6,
+      "pc_success_ci95": [
+        31.267376973365828,
+        83.18196702937637
+      ],
+      "video_paths": [
+        "outputs/eval/2026-11-02/15-41-23_metaworld_smolvla/videos/bin-picking-v3_0/eval_episode_0.mp4",
+        "outputs/eval/2026-11-02/15-41-23_metaworld_smolvla/videos/bin-picking-v3_0/eval_episode_1.mp4",
+        "outputs/eval/2026-11-02/15-41-23_metaworld_smolvla/videos/bin-picking-v3_0/eval_episode_2.mp4",
+        "outputs/eval/2026-11-02/15-41-23_metaworld_smolvla/videos/bin-picking-v3_0/eval_episode_3.mp4",
+        "outputs/eval/2026-11-02/15-41-23_metaworld_smolvla/videos/bin-picking-v3_0/eval_episode_4.mp4",
+        "outputs/eval/2026-11-02/15-41-23_metaworld_smolvla/videos/bin-picking-v3_0/eval_episode_5.mp4",
+        "outputs/eval/2026-11-02/15-41-23_metaworld_smolvla/videos/bin-picking-v3_0/eval_episode_6.mp4",
+        "outputs/eval/2026-11-02/15-41-23_metaworld_smolvla/videos/bin-picking-v3_0/eval_episode_7.mp4",
+        "outputs/eval/2026-11-02/15-41-23_metaworld_smolvla/videos/bin-picking-v3_0/eval_episode_8.mp4",
+        "outputs/eval/2026-11-02/15-41-23_metaworld_smolvla/videos/bin-picking-v3_0/eval_episode_9.mp4"
+      ],
+      "predicted_video_paths": []
+    }
+  },
+  "overall": {
+    "avg_sum_reward": 26.46390824908402,
+    "avg_max_reward": 6.052107396290096,
+    "pc_success": 60.0,
+    "n_episodes": 10,
+    "n_success": 6,
+    "pc_success_ci95": [
+      31.267376973365828,
+      83.18196702937637
+    ],
+    "eval_s": 770.6455490589142,
+    "eval_ep_s": 77.0645550251007,
+    "video_paths": [
+      "outputs/eval/2026-11-02/15-41-23_metaworld_smolvla/videos/bin-picking-v3_0/eval_episode_0.mp4",
+      "outputs/eval/2026-11-02/15-41-23_metaworld_smolvla/videos/bin-picking-v3_0/eval_episode_1.mp4",
+      "outputs/eval/2026-11-02/15-41-23_metaworld_smolvla/videos/bin-picking-v3_0/eval_episode_2.mp4",
+      "outputs/eval/2026-11-02/15-41-23_metaworld_smolvla/videos/bin-picking-v3_0/eval_episode_3.mp4",
+      "outputs/eval/2026-11-02/15-41-23_metaworld_smolvla/videos/bin-picking-v3_0/eval_episode_4.mp4",
+      "outputs/eval/2026-11-02/15-41-23_metaworld_smolvla/videos/bin-picking-v3_0/eval_episode_5.mp4",
+      "outputs/eval/2026-11-02/15-41-23_metaworld_smolvla/videos/bin-picking-v3_0/eval_episode_6.mp4",
+      "outputs/eval/2026-11-02/15-41-23_metaworld_smolvla/videos/bin-picking-v3_0/eval_episode_7.mp4",
+      "outputs/eval/2026-11-02/15-41-23_metaworld_smolvla/videos/bin-picking-v3_0/eval_episode_8.mp4",
+      "outputs/eval/2026-11-02/15-41-23_metaworld_smolvla/videos/bin-picking-v3_0/eval_episode_9.mp4"
+    ],
+    "predicted_video_paths": []
+  }
+}

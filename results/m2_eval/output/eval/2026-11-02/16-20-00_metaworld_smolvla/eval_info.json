@@ -1,0 +1,118 @@
+{
+  "per_task": [
+    {
+      "task_group": "sweep-v3",
+      "task_id": 0,
+      "metrics": {
+        "sum_rewards": [
+          43.80660614989391,
+          49.81237120281005,
+          46.43027605372515,
+          42.39024687090718,
+          41.94959219281725,
+          44.93677267478847,
+          47.106417593952514,
+          46.861956548803896,
+          34.5127811575845,
+          48.203922483308716
+        ],
+        "max_rewards": [
+          0.20045388691070876,
+          0.30587086704077027,
+          0.19788778019089337,
+          0.13007698859134503,
+          0.15250208432562815,
+          0.12197264390461757,
+          0.15939227808284423,
+          0.16006720927862786,
+          0.17920657263244236,
+          0.12954071281342078
+        ],
+        "successes": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ],
+        "video_paths": [
+          "outputs/eval/2026-11-02/16-20-00_metaworld_smolvla/videos/sweep-v3_0/eval_episode_0.mp4",
+          "outputs/eval/2026-11-02/16-20-00_metaworld_smolvla/videos/sweep-v3_0/eval_episode_1.mp4",
+          "outputs/eval/2026-11-02/16-20-00_metaworld_smolvla/videos/sweep-v3_0/eval_episode_2.mp4",
+          "outputs/eval/2026-11-02/16-20-00_metaworld_smolvla/videos/sweep-v3_0/eval_episode_3.mp4",
+          "outputs/eval/2026-11-02/16-20-00_metaworld_smolvla/videos/sweep-v3_0/eval_episode_4.mp4",
+          "outputs/eval/2026-11-02/16-20-00_metaworld_smolvla/videos/sweep-v3_0/eval_episode_5.mp4",
+          "outputs/eval/2026-11-02/16-20-00_metaworld_smolvla/videos/sweep-v3_0/eval_episode_6.mp4",
+          "outputs/eval/2026-11-02/16-20-00_metaworld_smolvla/videos/sweep-v3_0/eval_episode_7.mp4",
+          "outputs/eval/2026-11-02/16-20-00_metaworld_smolvla/videos/sweep-v3_0/eval_episode_8.mp4",
+          "outputs/eval/2026-11-02/16-20-00_metaworld_smolvla/videos/sweep-v3_0/eval_episode_9.mp4"
+        ],
+        "predicted_video_paths": []
+      },
+      "n_episodes": 10,
+      "n_success": 0,
+      "pc_success": 0.0,
+      "pc_success_ci95": [
+        2.7755575615628914e-15,
+        27.753279986288916
+      ]
+    }
+  ],
+  "per_group": {
+    "sweep-v3": {
+      "avg_sum_reward": 44.60109429285916,
+      "avg_max_reward": 0.17369710237712982,
+      "pc_success": 0.0,
+      "n_episodes": 10,
+      "n_success": 0,
+      "pc_success_ci95": [
+        2.7755575615628914e-15,
+        27.753279986288916
+      ],
+      "video_paths": [
+        "outputs/eval/2026-11-02/16-20-00_metaworld_smolvla/videos/sweep-v3_0/eval_episode_0.mp4",
+        "outputs/eval/2026-11-02/16-20-00_metaworld_smolvla/videos/sweep-v3_0/eval_episode_1.mp4",
+        "outputs/eval/2026-11-02/16-20-00_metaworld_smolvla/videos/sweep-v3_0/eval_episode_2.mp4",
+        "outputs/eval/2026-11-02/16-20-00_metaworld_smolvla/videos/sweep-v3_0/eval_episode_3.mp4",
+        "outputs/eval/2026-11-02/16-20-00_metaworld_smolvla/videos/sweep-v3_0/eval_episode_4.mp4",
+        "outputs/eval/2026-11-02/16-20-00_metaworld_smolvla/videos/sweep-v3_0/eval_episode_5.mp4",
+        "outputs/eval/2026-11-02/16-20-00_metaworld_smolvla/videos/sweep-v3_0/eval_episode_6.mp4",
+        "outputs/eval/2026-11-02/16-20-00_metaworld_smolvla/videos/sweep-v3_0/eval_episode_7.mp4",
+        "outputs/eval/2026-11-02/16-20-00_metaworld_smolvla/videos/sweep-v3_0/eval_episode_8.mp4",
+        "outputs/eval/2026-11-02/16-20-00_metaworld_smolvla/videos/sweep-v3_0/eval_episode_9.mp4"
+      ],
+      "predicted_video_paths": []
+    }
+  },
+  "overall": {
+    "avg_sum_reward": 44.60109429285916,
+    "avg_max_reward": 0.17369710237712982,
+    "pc_success": 0.0,
+    "n_episodes": 10,
+    "n_success": 0,
+    "pc_success_ci95": [
+      2.7755575615628914e-15,
+      27.753279986288916
+    ],
+    "eval_s": 1461.788114309311,
+    "eval_ep_s": 146.17881152629852,
+    "video_paths": [
+      "outputs/eval/2026-11-02/16-20-00_metaworld_smolvla/videos/sweep-v3_0/eval_episode_0.mp4",
+      "outputs/eval/2026-11-02/16-20-00_metaworld_smolvla/videos/sweep-v3_0/eval_episode_1.mp4",
+      "outputs/eval/2026-11-02/16-20-00_metaworld_smolvla/videos/sweep-v3_0/eval_episode_2.mp4",
+      "outputs/eval/2026-11-02/16-20-00_metaworld_smolvla/videos/sweep-v3_0/eval_episode_3.mp4",
+      "outputs/eval/2026-11-02/16-20-00_metaworld_smolvla/videos/sweep-v3_0/eval_episode_4.mp4",
+      "outputs/eval/2026-11-02/16-20-00_metaworld_smolvla/videos/sweep-v3_0/eval_episode_5.mp4",
+      "outputs/eval/2026-11-02/16-20-00_metaworld_smolvla/videos/sweep-v3_0/eval_episode_6.mp4",
+      "outputs/eval/2026-11-02/16-20-00_metaworld_smolvla/videos/sweep-v3_0/eval_episode_7.mp4",
+      "outputs/eval/2026-11-02/16-20-00_metaworld_smolvla/videos/sweep-v3_0/eval_episode_8.mp4",
+      "outputs/eval/2026-11-02/16-20-00_metaworld_smolvla/videos/sweep-v3_0/eval_episode_9.mp4"
+    ],
+    "predicted_video_paths": []
+  }
+}
